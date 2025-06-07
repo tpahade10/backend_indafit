@@ -7,7 +7,7 @@ const router = express.Router();
 
 // Chat with a bot
 router.post('/chat', authMiddleware, async (req, res) => {
-  const { message, botName } = req.body;
+  const { message, botName } =await req.body;
   const userId = req.user.id;
 
   if (!message || !botName) {
@@ -68,8 +68,8 @@ router.post('/chat', authMiddleware, async (req, res) => {
 
 // Get chat history for a specific bot
 router.get('/history/:botName', authMiddleware, async (req, res) => {
-  const userId = req.user.id;
-  const { botName } = req.params;
+  const userId =await req.user.id;
+  const { botName } =await req.params;
 
   try {
     const conversation = await Conversation.findOne({ userId, type: 'chat', botName });

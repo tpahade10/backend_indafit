@@ -5,6 +5,8 @@ const connectDB = require('./config/db');
 const authRoutes = require('./routes/auth');
 const searchRoutes = require('./routes/search');
 const chatRoutes = require('./routes/chat');
+const bodyParser = require('body-parser')
+
 
 // Load environment variables
 dotenv.config();
@@ -13,10 +15,13 @@ dotenv.config();
 connectDB();
 
 const app = express();
+app.use(bodyParser.json()) // for parsing application/json
 
-// Middleware
-app.use(cors());
-app.use(express.json());
+
+app.use(express.json()); // Parse JSON bodies
+app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
+app.use(cors()); // Enable CORS if needed
+
 
 // Routes
 app.use('/api/auth', authRoutes);
@@ -30,5 +35,5 @@ app.get('/', (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`Server running on port https//:localhost:${PORT}`);
 });
